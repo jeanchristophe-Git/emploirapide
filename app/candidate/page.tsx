@@ -396,7 +396,7 @@ export default function CandidatePage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl pb-20 lg:pb-8">
+        <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl pb-20 lg:pb-8 overflow-x-hidden">
             {/* Dashboard Tab */}
             {activeTab === "dashboard" && (
               <div>
@@ -763,9 +763,9 @@ export default function CandidatePage() {
                 <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-8">
                   <form onSubmit={handleProfileSubmit} className="space-y-6">
                     {/* Profile Photo Upload */}
-                    <div className="flex flex-col items-center pb-6 border-b border-grayLight">
-                      <div className="relative">
-                        <div className="w-32 h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-primary/20">
+                    <div className="flex flex-col items-center pb-6 border-b border-grayLight max-w-full">
+                      <div className="relative flex-shrink-0">
+                        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-4 border-primary/20">
                           {profilePhotoPreview ? (
                             <img
                               src={profilePhotoPreview}
@@ -906,7 +906,7 @@ export default function CandidatePage() {
                     </div>
 
                     {/* CV Upload Section */}
-                    <div className="border-t border-grayLight pt-6">
+                    <div className="border-t border-grayLight pt-6 max-w-full">
                       <label className="block text-sm font-semibold text-text mb-2">
                         CV / Curriculum Vitae
                       </label>
@@ -914,14 +914,14 @@ export default function CandidatePage() {
                         Téléchargez votre CV au format PDF (max 5MB)
                       </p>
 
-                      <div className="flex items-center gap-4">
-                        <label className="flex-1 cursor-pointer">
-                          <div className="border-2 border-dashed border-grayLight rounded-xl p-6 hover:border-primary hover:bg-primary/5 transition-all text-center">
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                        <label className="flex-1 cursor-pointer min-w-0">
+                          <div className="border-2 border-dashed border-grayLight rounded-xl p-4 md:p-6 hover:border-primary hover:bg-primary/5 transition-all text-center">
                             {cvFile ? (
-                              <div className="flex items-center justify-center gap-3">
-                                <File className="w-8 h-8 text-primary" />
-                                <div className="text-left">
-                                  <p className="font-semibold text-text">{cvFile.name}</p>
+                              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                                <File className="w-8 h-8 text-primary flex-shrink-0" />
+                                <div className="text-center sm:text-left min-w-0">
+                                  <p className="font-semibold text-text truncate">{cvFile.name}</p>
                                   <p className="text-sm text-grayDark">
                                     {(cvFile.size / 1024 / 1024).toFixed(2)} MB
                                   </p>
@@ -930,7 +930,7 @@ export default function CandidatePage() {
                             ) : (
                               <div>
                                 <Upload className="w-8 h-8 text-grayDark mx-auto mb-2" />
-                                <p className="text-sm text-grayDark">
+                                <p className="text-xs md:text-sm text-grayDark">
                                   Cliquez pour sélectionner votre CV
                                 </p>
                               </div>

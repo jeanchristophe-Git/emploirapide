@@ -161,12 +161,15 @@ function SearchPageContent( Data:data) {
     }
   };
 
-  // Initialize from URL params
+  // Initialize from URL params and auto-execute search
   useEffect(() => {
     const q = searchParams.get("q");
     const contractType = searchParams.get("contract_type");
 
-    if (q) setSearchQuery(q);
+    // Update form state from URL params
+    if (q) {
+      setSearchQuery(q);
+    }
     if (contractType) {
       // Map contract type to filter format
       const typeMap: { [key: string]: string } = {
@@ -178,7 +181,39 @@ function SearchPageContent( Data:data) {
       setSelectedType(typeMap[contractType] || "all");
     }
 
-    handleSearch();
+    // Auto-execute search if we have URL params
+    if (q || contractType) {
+      const executeSearch = async () => {
+        setLoading(true);
+        setError("");
+        setHasSearched(true);
+
+        try {
+          const params = new URLSearchParams({
+            query: q || "emploi",
+            location: locationQuery || "Côte d'Ivoire",
+            ...(contractType && contractType !== "all" && { type: contractType.toLowerCase() }),
+            ...(selectedSource && selectedSource !== "all" && { source: selectedSource }),
+          });
+
+          const response = await fetch(`/api/jobs?${params}`);
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Failed to fetch jobs");
+          }
+
+          setJobs(data.jobs || []);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "Une erreur est survenue");
+          setJobs([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      executeSearch();
+    }
   }, [searchParams]);
 
   const handleSearch = async (e?: React.FormEvent) => {

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import RecruiterProfileTab from "@/components/RecruiterProfileTab";
-import { Plus, Briefcase, Users, Eye, Edit, Trash2, TrendingUp, FileText, Search, MapPin, Clock, DollarSign, LogOut, Settings, Building2, Camera } from "lucide-react";
+import { Plus, Briefcase, Users, Eye, Edit, Trash2, TrendingUp, FileText, Search, MapPin, Clock, DollarSign, LogOut, Settings, Building2, Camera, User, X } from "lucide-react";
 
 interface Job {
   id: string;
@@ -67,6 +67,7 @@ export default function RecruiterPage() {
   // Edit mode
   const [editingJob, setEditingJob] = useState<Job | null>(null);
   const [viewingJob, setViewingJob] = useState<Job | null>(null);
+  const [viewingCandidate, setViewingCandidate] = useState<Application | null>(null);
 
   // Profile states
   const [companyLogo, setCompanyLogo] = useState<File | null>(null);
@@ -595,7 +596,8 @@ export default function RecruiterPage() {
                         {applications.slice(0, 3).map((application) => (
                           <div
                             key={application.id}
-                            className="pb-4 border-b border-grayLight last:border-0"
+                            className="pb-4 border-b border-grayLight last:border-0 cursor-pointer hover:bg-background/50 -mx-2 px-2 py-2 rounded-lg transition-colors"
+                            onClick={() => setViewingCandidate(application)}
                           >
                             <div className="flex items-start justify-between mb-2">
                               <div>
@@ -761,7 +763,8 @@ export default function RecruiterPage() {
                     {applications.map((application) => (
                       <div
                         key={application.id}
-                        className="bg-white rounded-2xl shadow-sm border border-grayLight p-6"
+                        className="bg-white rounded-2xl shadow-sm border border-grayLight p-6 hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => setViewingCandidate(application)}
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex gap-4">
@@ -787,10 +790,22 @@ export default function RecruiterPage() {
                           <p className="text-sm text-grayDark mb-3">
                             A postulé pour : <strong>{application.job.title}</strong> • {formatDate(application.createdAt)}
                           </p>
-                          <div className="flex gap-2">
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setViewingCandidate(application);
+                              }}
+                              className="px-4 py-2 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all"
+                            >
+                              Voir le profil
+                            </button>
                             {application.status !== "shortlisted" && (
                               <button
-                                onClick={() => handleUpdateApplicationStatus(application.id, "shortlisted")}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleUpdateApplicationStatus(application.id, "shortlisted");
+                                }}
                                 className="px-4 py-2 bg-success/10 text-success rounded-xl font-semibold hover:bg-success hover:text-white transition-all"
                               >
                                 Présélectionner
@@ -798,15 +813,21 @@ export default function RecruiterPage() {
                             )}
                             {application.status !== "reviewed" && (
                               <button
-                                onClick={() => handleUpdateApplicationStatus(application.id, "reviewed")}
-                                className="px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition-all"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleUpdateApplicationStatus(application.id, "reviewed");
+                                }}
+                                className="px-4 py-2 bg-secondary/10 text-secondary rounded-xl font-semibold hover:bg-secondary hover:text-white transition-all"
                               >
                                 Marquer comme examiné
                               </button>
                             )}
                             {application.status !== "rejected" && (
                               <button
-                                onClick={() => handleUpdateApplicationStatus(application.id, "rejected")}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleUpdateApplicationStatus(application.id, "rejected");
+                                }}
                                 className="px-4 py-2 border border-error text-error rounded-xl font-semibold hover:bg-error/10 transition-all"
                               >
                                 Rejeter
@@ -871,8 +892,8 @@ export default function RecruiterPage() {
 
       {/* New Job Modal (simplified) */}
       {showNewJobModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto my-auto">
             <h2 className="text-2xl font-heading font-bold text-text mb-6">
               {editingJob ? "Modifier l'offre" : "Publier une nouvelle offre"}
             </h2>
@@ -1026,8 +1047,8 @@ export default function RecruiterPage() {
 
       {/* View Job Details Modal */}
       {viewingJob && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-4 md:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto my-auto">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <h2 className="text-3xl font-heading font-bold text-text mb-2">
@@ -1110,6 +1131,135 @@ export default function RecruiterPage() {
               >
                 Fermer
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Candidate Profile Modal */}
+      {viewingCandidate && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-4 md:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto my-auto">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex gap-4 flex-1 min-w-0">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                  <User className="w-8 h-8 md:w-10 md:h-10 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-2xl md:text-3xl font-heading font-bold text-text mb-1 truncate">
+                    {viewingCandidate.user.name || "Candidat"}
+                  </h2>
+                  <p className="text-grayDark mb-2 truncate">{viewingCandidate.user.email}</p>
+                  {getCandidateStatusBadge(viewingCandidate.status)}
+                </div>
+              </div>
+              <button
+                onClick={() => setViewingCandidate(null)}
+                className="text-grayDark hover:text-error transition-colors ml-2 flex-shrink-0"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Application Details */}
+              <div className="pb-6 border-b border-grayLight">
+                <h3 className="font-semibold text-text mb-3 flex items-center gap-2">
+                  <Briefcase className="w-5 h-5" />
+                  Candidature
+                </h3>
+                <div className="bg-background rounded-xl p-4">
+                  <p className="text-sm text-grayDark mb-2">
+                    <span className="font-semibold text-text">Poste :</span> {viewingCandidate.job.title}
+                  </p>
+                  <p className="text-sm text-grayDark mb-2">
+                    <span className="font-semibold text-text">Date de candidature :</span> {formatDate(viewingCandidate.createdAt)}
+                  </p>
+                  <p className="text-sm text-grayDark">
+                    <span className="font-semibold text-text">Statut :</span> {
+                      viewingCandidate.status === "pending" ? "En attente" :
+                      viewingCandidate.status === "shortlisted" ? "Présélectionné" :
+                      viewingCandidate.status === "reviewed" ? "Examiné" :
+                      viewingCandidate.status === "rejected" ? "Rejeté" : viewingCandidate.status
+                    }
+                  </p>
+                </div>
+              </div>
+
+              {/* Cover Letter */}
+              {viewingCandidate.coverLetter && (
+                <div>
+                  <h3 className="font-semibold text-text mb-3 flex items-center gap-2">
+                    <FileText className="w-5 h-5" />
+                    Lettre de motivation
+                  </h3>
+                  <div className="bg-background rounded-xl p-4">
+                    <p className="text-grayDark whitespace-pre-line text-sm">{viewingCandidate.coverLetter}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Contact Information */}
+              <div>
+                <h3 className="font-semibold text-text mb-3">Informations de contact</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-background rounded-xl p-4">
+                    <p className="text-sm text-grayDark mb-1">Email</p>
+                    <p className="font-semibold text-text break-all">{viewingCandidate.user.email}</p>
+                  </div>
+                  <div className="bg-background rounded-xl p-4">
+                    <p className="text-sm text-grayDark mb-1">Nom complet</p>
+                    <p className="font-semibold text-text">{viewingCandidate.user.name || "Non renseigné"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="pt-6 border-t border-grayLight">
+                <div className="flex flex-wrap gap-2">
+                  {viewingCandidate.status !== "shortlisted" && (
+                    <button
+                      onClick={() => {
+                        handleUpdateApplicationStatus(viewingCandidate.id, "shortlisted");
+                        setViewingCandidate(null);
+                      }}
+                      className="px-4 py-2 bg-success text-white rounded-xl font-semibold hover:bg-success/90 transition-all"
+                    >
+                      Présélectionner
+                    </button>
+                  )}
+                  {viewingCandidate.status !== "reviewed" && (
+                    <button
+                      onClick={() => {
+                        handleUpdateApplicationStatus(viewingCandidate.id, "reviewed");
+                        setViewingCandidate(null);
+                      }}
+                      className="px-4 py-2 bg-secondary text-white rounded-xl font-semibold hover:bg-secondary/90 transition-all"
+                    >
+                      Marquer comme examiné
+                    </button>
+                  )}
+                  {viewingCandidate.status !== "rejected" && (
+                    <button
+                      onClick={() => {
+                        if (confirm("Êtes-vous sûr de vouloir rejeter cette candidature ?")) {
+                          handleUpdateApplicationStatus(viewingCandidate.id, "rejected");
+                          setViewingCandidate(null);
+                        }
+                      }}
+                      className="px-4 py-2 bg-error text-white rounded-xl font-semibold hover:bg-error/90 transition-all"
+                    >
+                      Rejeter
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setViewingCandidate(null)}
+                    className="ml-auto px-4 py-2 border border-grayLight text-grayDark rounded-xl font-semibold hover:bg-background transition-all"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

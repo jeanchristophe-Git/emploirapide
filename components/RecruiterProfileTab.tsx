@@ -79,13 +79,13 @@ export default function RecruiterProfileTab({
 
   return (
     <div>
-      <h1 className="text-3xl font-heading font-bold text-text mb-6">Paramètres</h1>
-      <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-6">
+      <h1 className="text-2xl md:text-3xl font-heading font-bold text-text mb-4 md:mb-6">Paramètres</h1>
+      <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-4 md:p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Logo Upload */}
-          <div className="flex flex-col items-center pb-6 border-b border-grayLight">
-            <div className="relative">
-              <div className="w-32 h-32 rounded-2xl overflow-hidden bg-background border-4 border-primary/20">
+          <div className="flex flex-col items-center pb-6 border-b border-grayLight max-w-full">
+            <div className="relative flex-shrink-0">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden bg-background border-4 border-primary/20">
                 {logoPreview ? (
                   <img
                     src={logoPreview}
