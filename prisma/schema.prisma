@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String?
+  role          String    @default("candidate") // "candidate" | "recruiter" | "admin"
+  profilePhoto  String?   // Path to profile photo (or company logo for recruiters)
+  phone         String?
+  address       String?
+  city          String?
+  about         String?   // Bio/description (or company description for recruiters)
+  companyName   String?   // Company name for recruiters
+  website       String?   // Company website for recruiters
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  jobs                Job[]
+  applications        Application[]
+  externalApplications ExternalApplication[]
+  cvs                 CV[]
+  savedJobs           SavedJob[]
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  company     String
+  location    String
+  description String
+  requirements String?
+  salary_min  Int?
+  salary_max  Int?
+  contract_type String  // "CDI" | "CDD" | "Stage" | "Freelance"
+  category    String   // "Informatique" | "Marketing" | "Vente" | etc.
+  keywords    String   // JSON array of keywords
+  status      String   @default("active") // "active" | "closed" | "draft"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  applications Application[]
+}
+
+model Application {
+  id          String   @id @default(cuid())
+  status      String   @default("pending") // "pending" | "accepted" | "rejected"
+  coverLetter String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id])
+}
+
+model CV {
+  id          String   @id @default(cuid())
+  filename    String
+  content     String   // Extracted text content
+  keywords    String   // JSON array of extracted keywords
+  uploadedAt  DateTime @default(now())
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model SavedJob {
+  id          String   @id @default(cuid())
+  jobId       String   // External job ID from JSearch API
+  jobData     String   // JSON stringified job data
+  savedAt     DateTime @default(now())
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, jobId])
+}
+
+model ExternalApplication {
+  id          String   @id @default(cuid())
+  jobId       String   // External job ID from JSearch API
+  jobData     String   // JSON stringified job data (title, company, etc.)
+  status      String   @default("applied") // "applied" | "followed" | "archived"
+  appliedAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, jobId])
+}
