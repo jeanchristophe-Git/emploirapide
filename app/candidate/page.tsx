@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import CandidateEnrichedProfile from "@/components/CandidateEnrichedProfile";
 import { compressImage } from "@/lib/imageCompression";
-import { User, Briefcase, FileText, Heart, Settings, Bell, TrendingUp, Clock, MapPin, Building2, Loader2, Trash2, LogOut, Upload, File, Camera } from "lucide-react";
+import { User, Briefcase, FileText, Heart, Settings, Bell, TrendingUp, Clock, MapPin, Building2, Loader2, Trash2, LogOut, Upload, File, Camera, Award } from "lucide-react";
 
 interface Application {
   id: string;
@@ -284,6 +285,17 @@ export default function CandidatePage() {
             <span className="text-xs font-medium">Favoris</span>
           </button>
           <button
+            onClick={() => setActiveTab("cv")}
+            className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all ${
+              activeTab === "cv"
+                ? "text-primary"
+                : "text-grayDark"
+            }`}
+          >
+            <Award className="w-5 h-5" />
+            <span className="text-xs font-medium">Mon CV</span>
+          </button>
+          <button
             onClick={() => setActiveTab("profile")}
             className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all ${
               activeTab === "profile"
@@ -358,6 +370,17 @@ export default function CandidatePage() {
               >
                 <Heart className="w-5 h-5 shrink-0" />
                 <span className="font-medium">Emplois sauvegardés</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("cv")}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm ${
+                  activeTab === "cv"
+                    ? "bg-primary text-white shadow-sm"
+                    : "text-grayDark hover:bg-background"
+                }`}
+              >
+                <Award className="w-5 h-5 shrink-0" />
+                <span className="font-medium">Mon CV</span>
               </button>
               <button
                 onClick={() => setActiveTab("profile")}
@@ -753,6 +776,35 @@ export default function CandidatePage() {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* CV Tab */}
+            {activeTab === "cv" && (
+              <div>
+                <h1 className="text-2xl md:text-3xl font-heading font-bold text-text mb-4 md:mb-6">
+                  Mon CV Professionnel
+                </h1>
+                <p className="text-grayDark mb-6">
+                  Construisez votre CV détaillé pour que les recruteurs puissent mieux évaluer votre profil.
+                </p>
+                <CandidateEnrichedProfile
+                  profileData={profileData}
+                  onSave={async (data) => {
+                    const res = await fetch("/api/candidate/profile", {
+                      method: "PATCH",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(data),
+                    });
+
+                    if (!res.ok) {
+                      const errorData = await res.json();
+                      throw new Error(errorData.error || "Erreur lors de la mise à jour");
+                    }
+
+                    await loadData();
+                  }}
+                />
               </div>
             )}
 

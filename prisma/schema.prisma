@@ -23,6 +23,13 @@ model User {
   about         String?   // Bio/description (or company description for recruiters)
   companyName   String?   // Company name for recruiters
   website       String?   // Company website for recruiters
+
+  // Candidate profile fields (JSON strings)
+  experiences   String?   // JSON array of work experiences
+  education     String?   // JSON array of education/formation
+  skills        String?   // JSON array of skills/compétences
+  languages     String?   // JSON array of languages
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

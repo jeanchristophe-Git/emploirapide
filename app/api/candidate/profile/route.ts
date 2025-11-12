@@ -34,6 +34,10 @@ export async function GET(request: NextRequest) {
         address: true,
         city: true,
         about: true,
+        experiences: true,
+        education: true,
+        skills: true,
+        languages: true,
       },
     });
 
@@ -67,7 +71,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, phone, address, city, about, profilePhoto } = body;
+    const { name, phone, address, city, about, profilePhoto, experiences, education, skills, languages } = body;
 
     // Prepare update data
     const updateData: any = {};
@@ -76,6 +80,10 @@ export async function PATCH(request: NextRequest) {
     if (address !== undefined) updateData.address = address;
     if (city !== undefined) updateData.city = city;
     if (about !== undefined) updateData.about = about;
+    if (experiences !== undefined) updateData.experiences = experiences;
+    if (education !== undefined) updateData.education = education;
+    if (skills !== undefined) updateData.skills = skills;
+    if (languages !== undefined) updateData.languages = languages;
 
     // Handle profile photo upload if provided
     if (profilePhoto && profilePhoto.startsWith("data:")) {
@@ -108,6 +116,10 @@ export async function PATCH(request: NextRequest) {
         address: true,
         city: true,
         about: true,
+        experiences: true,
+        education: true,
+        skills: true,
+        languages: true,
       },
     });
 

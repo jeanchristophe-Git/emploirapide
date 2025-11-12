@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import RecruiterProfileTab from "@/components/RecruiterProfileTab";
-import { Plus, Briefcase, Users, Eye, Edit, Trash2, TrendingUp, FileText, Search, MapPin, Clock, DollarSign, LogOut, Settings, Building2, Camera, User, X } from "lucide-react";
+import { Plus, Briefcase, Users, Eye, Edit, Trash2, TrendingUp, FileText, Search, MapPin, Clock, DollarSign, LogOut, Settings, Building2, Camera, User, X, GraduationCap, Award, Languages } from "lucide-react";
 
 interface Job {
   id: string;
@@ -37,6 +37,15 @@ interface Application {
     id: string;
     name: string | null;
     email: string;
+    phone?: string | null;
+    city?: string | null;
+    address?: string | null;
+    about?: string | null;
+    profilePhoto?: string | null;
+    experiences?: string | null;
+    education?: string | null;
+    skills?: string | null;
+    languages?: string | null;
   };
 }
 
@@ -1211,8 +1220,111 @@ export default function RecruiterPage() {
                     <p className="text-sm text-grayDark mb-1">Nom complet</p>
                     <p className="font-semibold text-text">{viewingCandidate.user.name || "Non renseigné"}</p>
                   </div>
+                  {viewingCandidate.user.phone && (
+                    <div className="bg-background rounded-xl p-4">
+                      <p className="text-sm text-grayDark mb-1">Téléphone</p>
+                      <p className="font-semibold text-text">{viewingCandidate.user.phone}</p>
+                    </div>
+                  )}
+                  {viewingCandidate.user.city && (
+                    <div className="bg-background rounded-xl p-4">
+                      <p className="text-sm text-grayDark mb-1">Ville</p>
+                      <p className="font-semibold text-text">{viewingCandidate.user.city}</p>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {/* About */}
+              {viewingCandidate.user.about && (
+                <div>
+                  <h3 className="font-semibold text-text mb-3">À propos</h3>
+                  <div className="bg-background rounded-xl p-4">
+                    <p className="text-grayDark text-sm whitespace-pre-line">{viewingCandidate.user.about}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Experiences */}
+              {viewingCandidate.user.experiences && JSON.parse(viewingCandidate.user.experiences).length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-text mb-3 flex items-center gap-2">
+                    <Briefcase className="w-5 h-5" />
+                    Expériences professionnelles
+                  </h3>
+                  <div className="space-y-3">
+                    {JSON.parse(viewingCandidate.user.experiences).map((exp: any) => (
+                      <div key={exp.id} className="bg-background rounded-xl p-4">
+                        <h4 className="font-semibold text-text mb-1">{exp.title}</h4>
+                        <p className="text-sm text-grayDark mb-1">{exp.company} • {exp.location}</p>
+                        <p className="text-xs text-grayDark mb-2">
+                          {new Date(exp.startDate).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })} - {exp.current ? "Présent" : new Date(exp.endDate).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}
+                        </p>
+                        {exp.description && <p className="text-sm text-grayDark whitespace-pre-line">{exp.description}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Education */}
+              {viewingCandidate.user.education && JSON.parse(viewingCandidate.user.education).length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-text mb-3 flex items-center gap-2">
+                    <GraduationCap className="w-5 h-5" />
+                    Formation
+                  </h3>
+                  <div className="space-y-3">
+                    {JSON.parse(viewingCandidate.user.education).map((edu: any) => (
+                      <div key={edu.id} className="bg-background rounded-xl p-4">
+                        <h4 className="font-semibold text-text mb-1">{edu.degree}</h4>
+                        <p className="text-sm text-grayDark mb-1">{edu.school}</p>
+                        {edu.field && <p className="text-sm text-grayDark mb-1">{edu.field}</p>}
+                        <p className="text-xs text-grayDark mb-2">
+                          {new Date(edu.startDate).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })} - {new Date(edu.endDate).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}
+                        </p>
+                        {edu.description && <p className="text-sm text-grayDark whitespace-pre-line">{edu.description}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Skills */}
+              {viewingCandidate.user.skills && JSON.parse(viewingCandidate.user.skills).length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-text mb-3 flex items-center gap-2">
+                    <Award className="w-5 h-5" />
+                    Compétences
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {JSON.parse(viewingCandidate.user.skills).map((skill: any) => (
+                      <div key={skill.id} className="bg-primary/10 text-primary px-3 py-2 rounded-lg text-sm">
+                        <span className="font-semibold">{skill.name}</span>
+                        <span className="text-xs ml-1">• {skill.level}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Languages */}
+              {viewingCandidate.user.languages && JSON.parse(viewingCandidate.user.languages).length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-text mb-3 flex items-center gap-2">
+                    <Languages className="w-5 h-5" />
+                    Langues
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {JSON.parse(viewingCandidate.user.languages).map((lang: any) => (
+                      <div key={lang.id} className="bg-accent/10 text-accent px-3 py-2 rounded-lg text-sm">
+                        <span className="font-semibold">{lang.name}</span>
+                        <span className="text-xs ml-1">• {lang.level}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Actions */}
               <div className="pt-6 border-t border-grayLight">
