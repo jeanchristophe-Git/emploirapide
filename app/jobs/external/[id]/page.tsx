@@ -239,50 +239,48 @@ export default function ExternalJobDetailsPage() {
         </Link>
 
         {/* Job Header */}
-        <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-8 mb-6">
-          <div className="flex items-start justify-between gap-6 mb-6">
-            <div className="flex items-start gap-4 flex-1">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6 lg:p-8 mb-4 md:mb-6">
+          <div className="flex flex-col gap-4 md:gap-6 mb-4 md:mb-6">
+            <div className="flex items-start gap-3 md:gap-4 flex-1">
               {job.logo && (
                 <img
                   src={job.logo}
                   alt={job.company}
-                  className="w-16 h-16 object-contain rounded-lg border border-grayLight"
+                  className="w-12 h-12 md:w-16 md:h-16 object-contain rounded-lg border border-grayLight shrink-0"
                 />
               )}
-              <div className="flex-1">
-                <div className="flex items-start justify-between gap-4 mb-2">
-                  <div>
-                    <h1 className="text-3xl font-heading font-bold text-text mb-2">
-                      {job.title}
-                    </h1>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Building2 className="w-5 h-5 text-grayDark" />
-                      <span className="text-xl font-semibold text-grayDark">{job.company}</span>
-                      <span className="bg-accent/10 text-accent text-xs px-2 py-1 rounded font-semibold">
-                        Externe
-                      </span>
-                    </div>
+              <div className="flex-1 min-w-0">
+                <div className="mb-2">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-heading font-bold text-text mb-2 break-words">
+                    {job.title}
+                  </h1>
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <Building2 className="w-4 h-4 md:w-5 md:h-5 text-grayDark shrink-0" />
+                    <span className="text-base md:text-lg lg:text-xl font-semibold text-grayDark break-words">{job.company}</span>
+                    <span className="bg-accent/10 text-accent text-xs px-2 py-0.5 md:py-1 rounded font-semibold shrink-0">
+                      Externe
+                    </span>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-4 text-grayDark">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>{job.location}</span>
+                <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs md:text-sm text-grayDark">
+                  <div className="flex items-center gap-1.5 md:gap-2">
+                    <MapPin className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                    <span className="break-words">{job.location}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Briefcase className="w-4 h-4" />
+                  <div className="flex items-center gap-1.5 md:gap-2">
+                    <Briefcase className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
                     <span>{job.type}</span>
                   </div>
                   {job.salary && (
-                    <div className="flex items-center gap-2">
-                      <DollarSign className="w-4 h-4" />
-                      <span>{job.salary}</span>
+                    <div className="flex items-center gap-1.5 md:gap-2">
+                      <DollarSign className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                      <span className="whitespace-nowrap">{job.salary}</span>
                     </div>
                   )}
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    <span>{job.postedAt}</span>
+                  <div className="flex items-center gap-1.5 md:gap-2">
+                    <Clock className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                    <span className="whitespace-nowrap">{job.postedAt}</span>
                   </div>
                 </div>
               </div>
@@ -290,55 +288,56 @@ export default function ExternalJobDetailsPage() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
             {hasApplied ? (
-              <div className="flex-1 px-6 py-3 bg-success/10 text-success rounded-xl font-semibold flex items-center justify-center gap-2">
-                <Check className="w-5 h-5" />
+              <div className="flex-1 px-4 md:px-6 py-2.5 md:py-3 bg-success/10 text-success rounded-lg md:rounded-xl text-sm md:text-base font-semibold flex items-center justify-center gap-2">
+                <Check className="w-4 h-4 md:w-5 md:h-5" />
                 Candidature enregistrée
               </div>
             ) : (
               <button
                 onClick={handleApply}
                 disabled={applying}
-                className="flex-1 px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 md:px-6 py-2.5 md:py-3 bg-primary text-white rounded-lg md:rounded-xl text-sm md:text-base font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {applying ? "Enregistrement..." : "Postuler maintenant"}
               </button>
             )}
             <button
               onClick={toggleSave}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all border ${
+              className={`px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-semibold transition-all border flex items-center justify-center gap-2 ${
                 isSaved
                   ? "bg-accent/10 text-accent border-accent"
                   : "bg-white text-grayDark border-grayLight hover:border-accent hover:text-accent"
               }`}
             >
-              <Heart className={`w-5 h-5 ${isSaved ? "fill-accent" : ""}`} />
+              <Heart className={`w-4 h-4 md:w-5 md:h-5 ${isSaved ? "fill-accent" : ""}`} />
+              <span className="sm:hidden">Sauvegarder</span>
             </button>
           </div>
         </div>
 
         {/* Job Description */}
-        <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-8 mb-6">
-          <h2 className="text-2xl font-heading font-bold text-text mb-4">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6 lg:p-8 mb-4 md:mb-6">
+          <h2 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-text mb-3 md:mb-4">
             Description du poste
           </h2>
-          <div className="text-grayDark whitespace-pre-wrap leading-relaxed">
+          <div className="text-grayDark text-sm md:text-base whitespace-pre-wrap leading-relaxed break-words">
             {job.description}
           </div>
         </div>
 
         {/* Qualifications */}
         {job.qualifications && job.qualifications.length > 0 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-8 mb-6">
-            <h2 className="text-2xl font-heading font-bold text-text mb-4">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6 lg:p-8 mb-4 md:mb-6">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-text mb-3 md:mb-4">
               Qualifications requises
             </h2>
             <ul className="space-y-2">
               {job.qualifications.map((qual, index) => (
-                <li key={index} className="flex items-start gap-2 text-grayDark">
-                  <span className="text-primary mt-1">•</span>
-                  <span>{qual}</span>
+                <li key={index} className="flex items-start gap-2 text-grayDark text-sm md:text-base">
+                  <span className="text-primary mt-1 shrink-0">•</span>
+                  <span className="break-words">{qual}</span>
                 </li>
               ))}
             </ul>
@@ -347,15 +346,15 @@ export default function ExternalJobDetailsPage() {
 
         {/* Responsibilities */}
         {job.responsibilities && job.responsibilities.length > 0 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-8 mb-6">
-            <h2 className="text-2xl font-heading font-bold text-text mb-4">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6 lg:p-8 mb-4 md:mb-6">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-text mb-3 md:mb-4">
               Responsabilités
             </h2>
             <ul className="space-y-2">
               {job.responsibilities.map((resp, index) => (
-                <li key={index} className="flex items-start gap-2 text-grayDark">
-                  <span className="text-primary mt-1">•</span>
-                  <span>{resp}</span>
+                <li key={index} className="flex items-start gap-2 text-grayDark text-sm md:text-base">
+                  <span className="text-primary mt-1 shrink-0">•</span>
+                  <span className="break-words">{resp}</span>
                 </li>
               ))}
             </ul>

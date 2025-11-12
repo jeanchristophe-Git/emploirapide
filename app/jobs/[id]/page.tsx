@@ -201,93 +201,93 @@ export default function JobDetailsPage() {
         </Link>
 
         {/* Carte principale */}
-        <div className="bg-white rounded-2xl shadow-lg border border-grayLight overflow-hidden">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border border-grayLight overflow-hidden">
           {/* En-tête */}
-          <div className="bg-gradient-to-r from-primary to-primary/80 p-8 text-white">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shrink-0">
+          <div className="bg-gradient-to-r from-primary to-primary/80 p-4 md:p-6 lg:p-8 text-white">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 md:gap-4 mb-4">
+              <div className="flex items-start gap-3 md:gap-4 flex-1 min-w-0">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg md:rounded-xl flex items-center justify-center shrink-0">
                   {job.companyLogo ? (
-                    <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover rounded-xl" />
+                    <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover rounded-lg md:rounded-xl" />
                   ) : (
-                    <Building2 className="w-10 h-10 text-primary" />
+                    <Building2 className="w-8 h-8 md:w-10 md:h-10 text-primary" />
                   )}
                 </div>
-                <div>
-                  <h1 className="text-3xl font-heading font-bold mb-2">{job.title}</h1>
-                  <p className="text-xl opacity-90">{job.company}</p>
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-heading font-bold mb-1 md:mb-2 break-words">{job.title}</h1>
+                  <p className="text-base md:text-lg lg:text-xl opacity-90 break-words">{job.company}</p>
                 </div>
               </div>
               <button
                 onClick={toggleSave}
-                className={`p-3 rounded-lg transition-all ${
+                className={`self-start p-2 md:p-3 rounded-lg transition-all shrink-0 ${
                   isSaved
                     ? "bg-white/20 text-white"
                     : "bg-white/10 hover:bg-white/20"
                 }`}
               >
-                <Heart className={`w-6 h-6 ${isSaved ? "fill-current" : ""}`} />
+                <Heart className={`w-5 h-5 md:w-6 md:h-6 ${isSaved ? "fill-current" : ""}`} />
               </button>
             </div>
 
             {/* Informations principales */}
-            <div className="flex flex-wrap gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5" />
-                <span>{job.location}</span>
+            <div className="flex flex-wrap gap-3 md:gap-4 lg:gap-6 text-xs md:text-sm">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <MapPin className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
+                <span className="break-words">{job.location}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5" />
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <Briefcase className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                 <span>{job.contract_type}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5" />
-                <span>{job.salary}</span>
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <DollarSign className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
+                <span className="whitespace-nowrap">{job.salary}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                <span>{formatDate(job.postedAt)}</span>
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <Clock className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
+                <span className="whitespace-nowrap">{formatDate(job.postedAt)}</span>
               </div>
             </div>
           </div>
 
           {/* Contenu */}
-          <div className="p-8">
+          <div className="p-4 md:p-6 lg:p-8">
             {/* Bouton postuler */}
             <button
               onClick={handleApply}
               disabled={applying}
-              className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-105 shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-8"
+              className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 md:py-4 px-4 md:px-6 rounded-lg md:rounded-xl transition-all hover:scale-105 shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-6 md:mb-8 text-sm md:text-base"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4 md:w-5 md:h-5" />
               {applying ? "Envoi en cours..." : "Postuler à cette offre"}
             </button>
 
             {/* Description */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-heading font-bold text-text mb-4">Description du poste</h2>
-              <p className="text-grayDark leading-relaxed whitespace-pre-line">{job.description}</p>
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-text mb-3 md:mb-4">Description du poste</h2>
+              <p className="text-grayDark text-sm md:text-base leading-relaxed whitespace-pre-line break-words">{job.description}</p>
             </div>
 
             {/* Exigences */}
             {job.requirements && (
-              <div className="mb-8">
-                <h2 className="text-2xl font-heading font-bold text-text mb-4">Exigences</h2>
-                <p className="text-grayDark leading-relaxed whitespace-pre-line">{job.requirements}</p>
+              <div className="mb-6 md:mb-8">
+                <h2 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-text mb-3 md:mb-4">Exigences</h2>
+                <p className="text-grayDark text-sm md:text-base leading-relaxed whitespace-pre-line break-words">{job.requirements}</p>
               </div>
             )}
 
             {/* Informations supplémentaires */}
-            <div className="border-t border-grayLight pt-6">
-              <h2 className="text-2xl font-heading font-bold text-text mb-4">Informations supplémentaires</h2>
-              <div className="grid md:grid-cols-2 gap-4">
+            <div className="border-t border-grayLight pt-4 md:pt-6">
+              <h2 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-text mb-3 md:mb-4">Informations supplémentaires</h2>
+              <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
                 <div>
-                  <p className="text-grayDark text-sm mb-1">Catégorie</p>
-                  <p className="text-text font-semibold">{job.category}</p>
+                  <p className="text-grayDark text-xs md:text-sm mb-1">Catégorie</p>
+                  <p className="text-text font-semibold text-sm md:text-base break-words">{job.category}</p>
                 </div>
                 <div>
-                  <p className="text-grayDark text-sm mb-1">Candidatures reçues</p>
-                  <p className="text-text font-semibold">{job.applicationsCount} candidature{job.applicationsCount > 1 ? "s" : ""}</p>
+                  <p className="text-grayDark text-xs md:text-sm mb-1">Candidatures reçues</p>
+                  <p className="text-text font-semibold text-sm md:text-base">{job.applicationsCount} candidature{job.applicationsCount > 1 ? "s" : ""}</p>
                 </div>
               </div>
             </div>

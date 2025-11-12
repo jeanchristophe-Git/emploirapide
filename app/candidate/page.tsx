@@ -450,13 +450,13 @@ export default function CandidatePage() {
                 </div>
 
                 {/* Recent Activity */}
-                <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-6 mb-8">
-                  <h2 className="text-xl font-heading font-bold text-text mb-4">
+                <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6 mb-6 md:mb-8">
+                  <h2 className="text-lg md:text-xl font-heading font-bold text-text mb-4">
                     Activité récente
                   </h2>
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {applications.length === 0 && externalApplications.length === 0 ? (
-                      <p className="text-center text-grayDark py-8">
+                      <p className="text-center text-grayDark py-6 md:py-8 text-sm md:text-base">
                         Aucune candidature pour le moment. Commencez votre recherche!
                       </p>
                     ) : (
@@ -465,26 +465,26 @@ export default function CandidatePage() {
                         {applications.slice(0, 2).map((app) => (
                           <div
                             key={app.id}
-                            className="flex items-center justify-between pb-4 border-b border-grayLight last:border-0"
+                            className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 pb-3 md:pb-4 border-b border-grayLight last:border-0"
                           >
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-semibold text-text">{app.job.title}</h3>
-                                <span className="bg-success/10 text-success text-xs px-2 py-0.5 rounded font-semibold">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start gap-2 mb-1 flex-wrap">
+                                <h3 className="text-sm md:text-base font-semibold text-text break-words line-clamp-1 flex-1 min-w-0">{app.job.title}</h3>
+                                <span className="bg-success/10 text-success text-xs px-2 py-0.5 rounded font-semibold shrink-0">
                                   Local
                                 </span>
                               </div>
-                              <p className="text-sm text-grayDark">{app.job.company}</p>
+                              <p className="text-xs md:text-sm text-grayDark truncate">{app.job.company}</p>
                             </div>
-                            <div className="text-right">
+                            <div className="flex items-center md:flex-col md:items-end gap-2">
                               <span
-                                className={`inline-block px-3 py-1 rounded-lg text-sm font-semibold ${getStatusColor(
+                                className={`inline-block px-2 md:px-3 py-1 rounded text-xs md:text-sm font-semibold whitespace-nowrap ${getStatusColor(
                                   app.status
                                 )}`}
                               >
                                 {getStatusLabel(app.status)}
                               </span>
-                              <p className="text-xs text-grayDark mt-1">
+                              <p className="text-xs text-grayDark whitespace-nowrap">
                                 {new Date(app.createdAt).toLocaleDateString("fr-FR")}
                               </p>
                             </div>
@@ -494,26 +494,26 @@ export default function CandidatePage() {
                         {externalApplications.slice(0, Math.max(0, 3 - applications.length)).map((app) => (
                           <div
                             key={app.id}
-                            className="flex items-center justify-between pb-4 border-b border-grayLight last:border-0"
+                            className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 pb-3 md:pb-4 border-b border-grayLight last:border-0"
                           >
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-semibold text-text">{app.title}</h3>
-                                <span className="bg-accent/10 text-accent text-xs px-2 py-0.5 rounded font-semibold">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start gap-2 mb-1 flex-wrap">
+                                <h3 className="text-sm md:text-base font-semibold text-text break-words line-clamp-1 flex-1 min-w-0">{app.title}</h3>
+                                <span className="bg-accent/10 text-accent text-xs px-2 py-0.5 rounded font-semibold shrink-0">
                                   Externe
                                 </span>
                               </div>
-                              <p className="text-sm text-grayDark">{app.company}</p>
+                              <p className="text-xs md:text-sm text-grayDark truncate">{app.company}</p>
                             </div>
-                            <div className="text-right">
+                            <div className="flex items-center md:flex-col md:items-end gap-2">
                               <span
-                                className={`inline-block px-3 py-1 rounded-lg text-sm font-semibold ${getStatusColor(
+                                className={`inline-block px-2 md:px-3 py-1 rounded text-xs md:text-sm font-semibold whitespace-nowrap ${getStatusColor(
                                   app.status
                                 )}`}
                               >
                                 {getStatusLabel(app.status)}
                               </span>
-                              <p className="text-xs text-grayDark mt-1">
+                              <p className="text-xs text-grayDark whitespace-nowrap">
                                 {new Date(app.appliedAt).toLocaleDateString("fr-FR")}
                               </p>
                             </div>
@@ -525,42 +525,42 @@ export default function CandidatePage() {
                 </div>
 
                 {/* Recommendations */}
-                <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-6">
-                  <h2 className="text-xl font-heading font-bold text-text mb-4">
+                <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6">
+                  <h2 className="text-lg md:text-xl font-heading font-bold text-text mb-4">
                     Emplois recommandés
                   </h2>
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {savedJobs.length === 0 ? (
-                      <p className="text-center text-grayDark py-8">
+                      <p className="text-center text-grayDark py-6 md:py-8 text-sm md:text-base">
                         Aucun emploi sauvegardé. Parcourez les offres et sauvegardez celles qui vous intéressent!
                       </p>
                     ) : (
                       savedJobs.slice(0, 3).map((job) => (
                         <div
                           key={job.id}
-                          className="p-4 border border-grayLight rounded-xl hover:border-primary transition-all"
+                          className="p-3 md:p-4 border border-grayLight rounded-lg md:rounded-xl hover:border-primary transition-all"
                         >
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-heading font-bold text-text">{job.title}</h3>
+                          <div className="flex justify-between items-start gap-2 mb-2">
+                            <h3 className="font-heading font-bold text-text text-sm md:text-base break-words line-clamp-2 flex-1 min-w-0">{job.title}</h3>
                             <button
                               onClick={() => handleRemoveSavedJob(job.jobId)}
-                              className="text-grayDark hover:text-error transition-colors"
+                              className="text-grayDark hover:text-error transition-colors shrink-0"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-grayDark mb-2">
-                            <Building2 className="w-4 h-4" />
-                            <span>{job.company}</span>
+                          <div className="flex items-center gap-2 text-xs md:text-sm text-grayDark mb-2">
+                            <Building2 className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                            <span className="truncate">{job.company}</span>
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-grayDark">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs md:text-sm text-grayDark">
                             <div className="flex items-center gap-1">
-                              <MapPin className="w-4 h-4" />
-                              <span>{job.location}</span>
+                              <MapPin className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                              <span className="truncate">{job.location}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
-                              <span>{job.postedAt}</span>
+                              <Clock className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                              <span className="whitespace-nowrap">{job.postedAt}</span>
                             </div>
                           </div>
                         </div>
@@ -580,56 +580,56 @@ export default function CandidatePage() {
 
                 {/* Local Applications */}
                 {applications.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-xl font-heading font-semibold text-text mb-4 flex items-center gap-2">
-                      Candidatures locales
-                      <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
+                  <div className="mb-6 md:mb-8">
+                    <h2 className="text-lg md:text-xl font-heading font-semibold text-text mb-4 flex items-center gap-2 flex-wrap">
+                      <span>Candidatures locales</span>
+                      <span className="text-xs md:text-sm bg-primary/10 text-primary px-2 md:px-3 py-1 rounded-full">
                         {applications.length}
                       </span>
                     </h2>
-                    <div className="space-y-4">
+                    <div className="space-y-3 md:space-y-4">
                       {applications.map((app) => (
                         <div
                           key={app.id}
-                          className="bg-white rounded-2xl shadow-sm border border-grayLight p-6"
+                          className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6"
                         >
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2">
-                                <h3 className="text-xl font-heading font-bold text-text">
+                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4 mb-3 md:mb-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start gap-2 mb-2 flex-wrap">
+                                <h3 className="text-base md:text-xl font-heading font-bold text-text break-words flex-1 min-w-0 line-clamp-2">
                                   {app.job.title}
                                 </h3>
-                                <span className="bg-success/10 text-success text-xs px-2 py-1 rounded-lg font-semibold">
+                                <span className="bg-success/10 text-success text-xs px-2 py-0.5 md:py-1 rounded-lg font-semibold shrink-0">
                                   Local
                                 </span>
                               </div>
-                              <div className="flex items-center gap-2 text-grayDark mb-2">
-                                <Building2 className="w-4 h-4" />
-                                <span className="font-semibold">{app.job.company}</span>
+                              <div className="flex items-center gap-2 text-sm md:text-base text-grayDark mb-1 md:mb-2">
+                                <Building2 className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                                <span className="font-semibold truncate">{app.job.company}</span>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-grayDark">
-                                <MapPin className="w-4 h-4" />
-                                <span>{app.job.location}</span>
+                              <div className="flex items-center gap-2 text-xs md:text-sm text-grayDark">
+                                <MapPin className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                                <span className="truncate">{app.job.location}</span>
                               </div>
                             </div>
-                            <div className="text-right">
+                            <div className="flex md:flex-col items-center md:items-end gap-2">
                               <span
-                                className={`inline-block px-4 py-2 rounded-xl text-sm font-semibold ${getStatusColor(
+                                className={`inline-block px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold whitespace-nowrap ${getStatusColor(
                                   app.status
                                 )}`}
                               >
                                 {getStatusLabel(app.status)}
                               </span>
-                              <p className="text-sm text-grayDark mt-2">
+                              <p className="text-xs md:text-sm text-grayDark whitespace-nowrap">
                                 {new Date(app.createdAt).toLocaleDateString("fr-FR")}
                               </p>
                             </div>
                           </div>
-                          <div className="flex gap-2">
-                            <button className="px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition-all">
+                          <div className="flex flex-col sm:flex-row gap-2">
+                            <button className="flex-1 text-center px-4 py-2 bg-primary/10 text-primary rounded-lg md:rounded-xl text-sm font-semibold hover:bg-primary hover:text-white transition-all">
                               Voir les détails
                             </button>
-                            <button className="px-4 py-2 border border-grayLight text-grayDark rounded-xl font-semibold hover:bg-background transition-all">
+                            <button className="flex-1 text-center px-4 py-2 border border-grayLight text-grayDark rounded-lg md:rounded-xl text-sm font-semibold hover:bg-background transition-all">
                               Retirer candidature
                             </button>
                           </div>
@@ -642,62 +642,62 @@ export default function CandidatePage() {
                 {/* External Applications */}
                 {externalApplications.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-heading font-semibold text-text mb-4 flex items-center gap-2">
-                      Candidatures externes
-                      <span className="text-sm bg-accent/10 text-accent px-3 py-1 rounded-full">
+                    <h2 className="text-lg md:text-xl font-heading font-semibold text-text mb-4 flex items-center gap-2 flex-wrap">
+                      <span>Candidatures externes</span>
+                      <span className="text-xs md:text-sm bg-accent/10 text-accent px-2 md:px-3 py-1 rounded-full">
                         {externalApplications.length}
                       </span>
                     </h2>
-                    <div className="space-y-4">
+                    <div className="space-y-3 md:space-y-4">
                       {externalApplications.map((app) => (
                         <div
                           key={app.id}
-                          className="bg-white rounded-2xl shadow-sm border border-grayLight p-6"
+                          className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6"
                         >
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2">
-                                <h3 className="text-xl font-heading font-bold text-text">
+                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4 mb-3 md:mb-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start gap-2 mb-2 flex-wrap">
+                                <h3 className="text-base md:text-xl font-heading font-bold text-text break-words flex-1 min-w-0 line-clamp-2">
                                   {app.title}
                                 </h3>
-                                <span className="bg-accent/10 text-accent text-xs px-2 py-1 rounded-lg font-semibold">
+                                <span className="bg-accent/10 text-accent text-xs px-2 py-0.5 md:py-1 rounded-lg font-medium shrink-0">
                                   Externe
                                 </span>
                               </div>
-                              <div className="flex items-center gap-2 text-grayDark mb-2">
-                                <Building2 className="w-4 h-4" />
-                                <span className="font-semibold">{app.company}</span>
+                              <div className="flex items-center gap-2 text-sm md:text-base text-grayDark mb-1 md:mb-2">
+                                <Building2 className="w-4 h-4 shrink-0" />
+                                <span className="font-semibold truncate">{app.company}</span>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-grayDark">
-                                <MapPin className="w-4 h-4" />
-                                <span>{app.location}</span>
+                              <div className="flex items-center gap-2 text-xs md:text-sm text-grayDark">
+                                <MapPin className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
+                                <span className="truncate">{app.location}</span>
                               </div>
                             </div>
-                            <div className="text-right">
+                            <div className="flex md:flex-col items-center md:items-end gap-2 md:gap-0 md:text-right">
                               <span
-                                className={`inline-block px-4 py-2 rounded-xl text-sm font-semibold ${getStatusColor(
+                                className={`inline-block px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold whitespace-nowrap ${getStatusColor(
                                   app.status
                                 )}`}
                               >
                                 {getStatusLabel(app.status)}
                               </span>
-                              <p className="text-sm text-grayDark mt-2">
+                              <p className="text-xs md:text-sm text-grayDark md:mt-2 whitespace-nowrap">
                                 {new Date(app.appliedAt).toLocaleDateString("fr-FR")}
                               </p>
                             </div>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex flex-col sm:flex-row gap-2">
                             {app.applyLink && (
                               <a
                                 href={app.applyLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition-all"
+                                className="flex-1 text-center px-4 py-2 bg-primary/10 text-primary rounded-lg md:rounded-xl text-sm font-semibold hover:bg-primary hover:text-white transition-all"
                               >
-                                Voir l'offre
+                                Voir l&apos;offre
                               </a>
                             )}
-                            <button className="px-4 py-2 border border-grayLight text-grayDark rounded-xl font-semibold hover:bg-background transition-all">
+                            <button className="flex-1 px-4 py-2 border border-grayLight text-grayDark rounded-lg md:rounded-xl text-sm font-semibold hover:bg-background transition-all">
                               Archiver
                             </button>
                           </div>

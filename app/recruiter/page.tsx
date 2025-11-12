@@ -563,28 +563,28 @@ export default function RecruiterPage() {
                 </div>
 
                 {/* Recent Jobs & Candidates */}
-                <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-6">
-                    <h2 className="text-xl font-heading font-bold text-text mb-4">
+                <div className="grid lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
+                  <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6">
+                    <h2 className="text-lg md:text-xl font-heading font-bold text-text mb-4">
                       Offres récentes
                     </h2>
                     {jobPostings.length === 0 ? (
-                      <p className="text-grayDark text-center py-4">
+                      <p className="text-grayDark text-center py-4 text-sm md:text-base">
                         Aucune offre publiée pour le moment
                       </p>
                     ) : (
-                      <div className="space-y-4">
+                      <div className="space-y-3 md:space-y-4">
                         {jobPostings.slice(0, 3).map((job) => (
                           <div
                             key={job.id}
-                            className="pb-4 border-b border-grayLight last:border-0"
+                            className="pb-3 md:pb-4 border-b border-grayLight last:border-0"
                           >
-                            <div className="flex items-start justify-between mb-2">
-                              <h3 className="font-semibold text-text">{job.title}</h3>
-                              {getStatusBadge(job.status)}
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <h3 className="font-semibold text-text text-sm md:text-base break-words line-clamp-2 flex-1 min-w-0">{job.title}</h3>
+                              <div className="shrink-0">{getStatusBadge(job.status)}</div>
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-grayDark">
-                              <span>{job._count?.applications || 0} candidatures</span>
+                            <div className="flex items-center gap-4 text-xs md:text-sm text-grayDark">
+                              <span className="whitespace-nowrap">{job._count?.applications || 0} candidatures</span>
                             </div>
                           </div>
                         ))}
@@ -592,32 +592,32 @@ export default function RecruiterPage() {
                     )}
                   </div>
 
-                  <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-6">
-                    <h2 className="text-xl font-heading font-bold text-text mb-4">
+                  <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6">
+                    <h2 className="text-lg md:text-xl font-heading font-bold text-text mb-4">
                       Nouveaux candidats
                     </h2>
                     {applications.length === 0 ? (
-                      <p className="text-grayDark text-center py-4">
+                      <p className="text-grayDark text-center py-4 text-sm md:text-base">
                         Aucune candidature reçue pour le moment
                       </p>
                     ) : (
-                      <div className="space-y-4">
+                      <div className="space-y-3 md:space-y-4">
                         {applications.slice(0, 3).map((application) => (
                           <div
                             key={application.id}
-                            className="pb-4 border-b border-grayLight last:border-0 cursor-pointer hover:bg-background/50 -mx-2 px-2 py-2 rounded-lg transition-colors"
+                            className="pb-3 md:pb-4 border-b border-grayLight last:border-0 cursor-pointer hover:bg-background/50 -mx-2 px-2 py-2 rounded-lg transition-colors"
                             onClick={() => setViewingCandidate(application)}
                           >
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <h3 className="font-semibold text-text">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-2">
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-semibold text-text text-sm md:text-base truncate">
                                   {application.user.name || "Candidat"}
                                 </h3>
-                                <p className="text-sm text-grayDark">{application.job.title}</p>
+                                <p className="text-xs md:text-sm text-grayDark break-words line-clamp-1">{application.job.title}</p>
                               </div>
-                              {getCandidateStatusBadge(application.status)}
+                              <div className="shrink-0">{getCandidateStatusBadge(application.status)}</div>
                             </div>
-                            <p className="text-xs text-grayDark">{formatDate(application.createdAt)}</p>
+                            <p className="text-xs text-grayDark whitespace-nowrap">{formatDate(application.createdAt)}</p>
                           </div>
                         ))}
                       </div>
@@ -758,48 +758,48 @@ export default function RecruiterPage() {
                 </div>
 
                 {applications.length === 0 ? (
-                  <div className="bg-white rounded-2xl shadow-sm border border-grayLight p-12 text-center">
-                    <Users className="w-16 h-16 mx-auto mb-4 text-grayDark opacity-30" />
-                    <h3 className="text-xl font-heading font-bold text-text mb-2">
+                  <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-8 md:p-12 text-center">
+                    <Users className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-grayDark opacity-30" />
+                    <h3 className="text-lg md:text-xl font-heading font-bold text-text mb-2">
                       Aucune candidature reçue
                     </h3>
-                    <p className="text-grayDark">
+                    <p className="text-grayDark text-sm md:text-base">
                       Les candidatures apparaîtront ici lorsque des candidats postuleront à vos offres
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {applications.map((application) => (
                       <div
                         key={application.id}
-                        className="bg-white rounded-2xl shadow-sm border border-grayLight p-6 hover:shadow-md transition-shadow cursor-pointer"
+                        className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-grayLight p-4 md:p-6 hover:shadow-md transition-shadow cursor-pointer"
                         onClick={() => setViewingCandidate(application)}
                       >
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex gap-4">
-                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
-                              <Users className="w-8 h-8 text-primary" />
+                        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+                          <div className="flex gap-3 md:gap-4 flex-1 min-w-0">
+                            <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                              <Users className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                             </div>
-                            <div>
-                              <h3 className="text-xl font-heading font-bold text-text mb-1">
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-base md:text-xl font-heading font-bold text-text mb-1 break-words">
                                 {application.user.name || "Candidat"}
                               </h3>
-                              <p className="text-grayDark mb-2">{application.user.email}</p>
+                              <p className="text-grayDark text-xs md:text-base mb-2 break-all">{application.user.email}</p>
                               {application.coverLetter && (
-                                <p className="text-sm text-grayDark mt-2 line-clamp-2">
+                                <p className="text-xs md:text-sm text-grayDark mt-2 line-clamp-2">
                                   {application.coverLetter}
                                 </p>
                               )}
                             </div>
                           </div>
-                          {getCandidateStatusBadge(application.status)}
+                          <div className="shrink-0 self-start">{getCandidateStatusBadge(application.status)}</div>
                         </div>
 
-                        <div className="pt-4 border-t border-grayLight">
-                          <p className="text-sm text-grayDark mb-3">
+                        <div className="pt-3 md:pt-4 border-t border-grayLight">
+                          <p className="text-xs md:text-sm text-grayDark mb-3 break-words">
                             A postulé pour : <strong>{application.job.title}</strong> • {formatDate(application.createdAt)}
                           </p>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-col sm:flex-row flex-wrap gap-2">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
