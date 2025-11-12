@@ -409,114 +409,94 @@ function SearchPageContent( Data:data) {
 
             {!loading && jobs.length > 0 && (
               <>
-                {/* Grille d'emplois en cartes - Style emploirapide.ci */}
-                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+                {/* Liste d'emplois - Style Google Search */}
+                <div className="space-y-6">
                   {jobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage).map((job) => (
                     <div
                       key={job.id}
-                      className="bg-white rounded-2xl shadow-sm border border-grayLight p-6 hover:shadow-lg hover:border-primary transition-all"
+                      className="group cursor-pointer"
+                      onClick={() => handleApply(job)}
                     >
-                      {/* En-tête avec badge */}
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                      {/* En-tête avec URL et badge */}
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
                           {job.logo ? (
-                            <div className="w-12 h-12 flex-shrink-0 bg-background rounded-lg p-2">
-                              <img src={job.logo} alt={job.company} className="w-full h-full object-contain" />
-                            </div>
+                            <img src={job.logo} alt={job.company} className="w-6 h-6 rounded object-contain" />
                           ) : (
-                            <div className="w-12 h-12 flex-shrink-0 bg-primary/10 rounded-lg flex items-center justify-center">
-                              <Building2 className="w-6 h-6 text-primary" />
-                            </div>
+                            <Building2 className="w-5 h-5 text-grayDark flex-shrink-0" />
                           )}
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-lg font-heading font-bold text-text hover:text-primary transition-colors line-clamp-2 mb-1">
-                              {job.title}
-                            </h3>
-                            <p className="text-sm text-grayDark font-medium">{job.company}</p>
-                          </div>
+                          <span className="text-sm text-grayDark truncate">{job.company}</span>
                         </div>
                         {job.isLocal ? (
-                          <span className="flex-shrink-0 bg-success/10 text-success text-xs px-2.5 py-1 rounded-full font-semibold">
+                          <span className="flex-shrink-0 bg-success/10 text-success text-xs px-2 py-0.5 rounded font-medium">
                             Local
                           </span>
                         ) : (
-                          <span className="flex-shrink-0 bg-accent/10 text-accent text-xs px-2.5 py-1 rounded-full font-semibold">
+                          <span className="flex-shrink-0 bg-accent/10 text-accent text-xs px-2 py-0.5 rounded font-medium">
                             Externe
                           </span>
                         )}
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-sm text-grayDark line-clamp-3 mb-4">
-                        {job.description}
-                      </p>
-
-                      {/* Informations */}
-                      <div className="space-y-2 mb-4">
-                        {job.location && (
-                          <div className="flex items-center gap-2 text-sm text-grayDark">
-                            <MapPin className="w-4 h-4 flex-shrink-0 text-primary" />
-                            <span className="truncate">{job.location}</span>
-                          </div>
-                        )}
-                        {job.type && (
-                          <div className="flex items-center gap-2 text-sm text-grayDark">
-                            <Briefcase className="w-4 h-4 flex-shrink-0 text-primary" />
-                            <span>{job.type}</span>
-                          </div>
-                        )}
-                        {job.salary && (
-                          <div className="flex items-center gap-2 text-sm text-grayDark">
-                            <DollarSign className="w-4 h-4 flex-shrink-0 text-primary" />
-                            <span>{job.salary}</span>
-                          </div>
-                        )}
-                        {job.postedAt && (
-                          <div className="flex items-center gap-2 text-sm text-grayDark">
-                            <Clock className="w-4 h-4 flex-shrink-0 text-primary" />
-                            <span>{job.postedAt}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex items-center gap-2 pt-4 border-t border-grayLight">
-                        {/* Bouton cœur */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleToggleSave(job);
                           }}
-                          className="flex-shrink-0 p-2 text-grayDark hover:text-accent hover:bg-accent/10 rounded-lg transition-all"
+                          className="flex-shrink-0 p-1 hover:bg-accent/10 rounded transition-colors"
                           title={savedJobIds.includes(job.id) ? "Retirer des favoris" : "Sauvegarder"}
                         >
                           <Heart
-                            className={`w-5 h-5 ${
+                            className={`w-4 h-4 ${
                               savedJobIds.includes(job.id)
                                 ? "fill-accent text-accent"
-                                : ""
+                                : "text-grayDark"
                             }`}
                           />
                         </button>
+                      </div>
 
-                        {/* Bouton Postuler */}
-                        {appliedJobIds.includes(job.id) ? (
-                          <span className="flex-1 px-4 py-2.5 bg-success/10 text-success rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      {/* Titre */}
+                      <h3 className="text-xl text-primary group-hover:underline font-normal mb-1 line-clamp-1">
+                        {job.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-sm text-grayDark line-clamp-2 mb-2">
+                        {job.description}
+                      </p>
+
+                      {/* Métadonnées en ligne */}
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-grayDark">
+                        {job.location && (
+                          <span className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            {job.location}
+                          </span>
+                        )}
+                        {job.type && (
+                          <span className="flex items-center gap-1">
+                            <Briefcase className="w-3 h-3" />
+                            {job.type}
+                          </span>
+                        )}
+                        {job.salary && (
+                          <span className="flex items-center gap-1">
+                            <DollarSign className="w-3 h-3" />
+                            {job.salary}
+                          </span>
+                        )}
+                        {job.postedAt && (
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {job.postedAt}
+                          </span>
+                        )}
+                        {appliedJobIds.includes(job.id) && (
+                          <span className="flex items-center gap-1 text-success font-medium">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            Postulé
+                            Candidature envoyée
                           </span>
-                        ) : (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleApply(job);
-                            }}
-                            className="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all"
-                          >
-                            Postuler maintenant
-                          </button>
                         )}
                       </div>
                     </div>
