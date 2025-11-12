@@ -3,9 +3,9 @@
 ## 📋 Variables d'environnement à configurer sur Vercel
 
 ### 1. **DATABASE_URL** (Neon DB - PostgreSQL)
-Tu utilises déjà Neon DB ! Copie cette URL dans Vercel :
+Copie ton URL Neon DB depuis ton dashboard Neon :
 ```
-postgresql://neondb_owner:npg_pw4dZRx7aCVG@ep-curly-band-ah5xdp20-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require
+postgresql://user:password@host-pooler.region.aws.neon.tech/database?sslmode=require&pgbouncer=true
 ```
 
 ⚠️ **Important** : Utilise la version **pooled** (avec `-pooler`) pour Vercel
@@ -25,7 +25,7 @@ Ou utilise : https://generate-secret.vercel.app/32
 
 Exemple :
 ```
-Kp2s8vN9mQ3jR7tY6wX4bZ1cF5hL0gD8eA3pM9nK2sV7uB4tC6wE1xF9
+your-generated-secret-key-here-minimum-32-characters
 ```
 
 ### 4. **RAPIDAPI_KEY**
@@ -49,13 +49,13 @@ Kp2s8vN9mQ3jR7tY6wX4bZ1cF5hL0gD8eA3pM9nK2sV7uB4tC6wE1xF9
 ## 🚀 Étapes de déploiement
 
 ### Étape 1 : Vérifier ta base de données Neon DB
-✅ Tu utilises déjà Neon DB ! Aucune création de base nécessaire.
+✅ Si tu utilises déjà Neon DB, récupère ton URL depuis le dashboard Neon.
 
 ⚠️ **Important** : Assure-toi d'utiliser la version **pooled** de ton URL Neon (avec `-pooler`) pour éviter les problèmes de connexions sur Vercel.
 
-URL actuelle (pooled) :
+Format de l'URL pooled :
 ```
-postgresql://neondb_owner:npg_pw4dZRx7aCVG@ep-curly-band-ah5xdp20-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require
+postgresql://user:password@host-pooler.region.aws.neon.tech/database?sslmode=require&pgbouncer=true
 ```
 
 ### Étape 2 : Configurer les variables d'environnement
