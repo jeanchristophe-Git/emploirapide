@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar";
@@ -29,7 +29,7 @@ interface data {
   name: string;
 }
 
-export default function SearchPage( Data:data) {
+function SearchPageContent( Data:data) {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
@@ -500,5 +500,20 @@ export default function SearchPage( Data:data) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SearchPage(Data:data) {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </div>
+    }>
+      <SearchPageContent {...Data} />
+    </Suspense>
   );
 }

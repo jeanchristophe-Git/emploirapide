@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
         if (updatedUser) {
           token.name = updatedUser.name;
           token.email = updatedUser.email;
-          token.profilePhoto = updatedUser.profilePhoto;
+          token.profilePhoto = updatedUser.profilePhoto || undefined;
           token.role = updatedUser.role;
         }
       }

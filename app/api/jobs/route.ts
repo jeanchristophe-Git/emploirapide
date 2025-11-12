@@ -96,7 +96,8 @@ export async function GET(request: NextRequest) {
           params: {
             query: `${query} in ${location}`,
             page: page,
-            num_pages: "1",
+            num_pages: "3", // 3 pages = 30 résultats minimum (10 par page)
+            country: "ci", // Code ISO pour Côte d'Ivoire
             date_posted: "all",
             ...(employmentType && employmentType !== "all" && { employment_types: employmentType.toUpperCase() }),
           },
